@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>js监听ctrl + c 事件 和 鼠标右键复制事件,获取复制内容</title>
+	</head>
+	<body>
+		<div class="text-hook">
+			<p>
+				Go 是 Google 开发的一种编译型、并发型，并具有垃圾回收功能的编程语言。
+				
+				Go 的表现力强、简洁、干净、高效。它的并发机制使它能够轻松地编写程序，从而最大限度地利用多核和网络机器，而它新颖的类型系统则使灵活的模块化程序构造成为可能。Go 快速编译成机器代码，但又具有垃圾回收的便利性和运行时反射的强大功能。它是一种快速的、静态类型化的、编译后的语言，感觉就像一种动态类型化的、解释的语言。
+			</p>
+		</div>
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+		<script type="text/javascript">
+			//  监听 ctrl + c 事件
+			$(document).unbind('keydown').bind('keydown', function(e) {
+				if (e.ctrlKey && e.keyCode == 67) {
+					doSomething();
+					// 返回false, 防止重复触发copy事件
+					return false;
+				}
+			})
+
+			// 鼠标右键的复制事件
+			$(document).unbind('copy').bind('copy', function(e) {
+				doSomething();
+				console.log('右键复制 监听成功');
+			});
+
+			function doSomething() {
+				var content = window.getSelection().toString(); //获取复制的内容
+				setTime();
+				console.log(content);
+				console.log('ctrl + c 监听成功');
+			}
+
+			// 计算并保存复制次数
+			function setTime() {
+				if (window.localStorage) {
+					let time = localStorage.getItem('time');
+					time ? time++ : time = 1;
+					localStorage.setItem('time', time);
+				}
+			}
+		</script>
+	</body>
+</html>
